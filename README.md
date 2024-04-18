@@ -89,7 +89,7 @@ archivo de tabulados de la ENSU -publicada por el INEGI- para que sean utilizabl
     <p align="center">
       <div align="center">
     </p>
-<a href="https://github.com/Lunox-code?tab=repositories">
+<a href="https://github.com/sanalexito/">
   <img align="center" 
        src="https://github-readme-stats.vercel.app/api?username=anuraghazra&show_icons=true&hide=contribs,prs&cache_seconds=86400&theme=gruvbox" 
        alt='Lunox's favorite languages" />
