@@ -5,26 +5,55 @@ library(plyr)
 library(ggplot2)
 library(ggimage)
 
-
+# This is the source to use the icons
 font_add("wmpeople1", "D:/varios/wmpeople1.TTF")
 showtext_auto()
 
-dat = read.csv(textConnection('
-      edu,educode,gender,population
-      No School,1,m,17464
-      No School,1,f,41268
-      Primary School,2,m,139378
-      Primary School,2,f,154854
-      Middle School,3,m,236369
-      Middle School,3,f,205537
-      High School,4,m,94528
-      High School,4,f,70521
-      Bacherlor or above,5,m,57013
-      Bacherlor or above,5,f,50334
-'))
+# Loading the ENSU file
+tabla <- openxlsx::read.xlsx("D:/OneDrive - INEGI/Respaldo/varios/Medioambiente/demografia/poblacion_CDMX_ensu/XI_acoso_personal_violencia_sexual_dic_2023_est.xlsx",3)
+tabla <- tabla[69:120,]
 
-dat$int = round(dat$population / 10000)
-gdat = ddply(dat, "educode", function(d) {
+quitar <- which(stringr::str_detect(tabla[,1],"Región"))
+tabla <- tabla[-quitar,]
+
+# Now I need the names of the municipalities
+alcaldias <- tabla[!tabla[,1]%in%c('Hombres', 'Mujeres'), 1]
+
+# And now take the each one position
+pos_alcaldias <- which(tabla[,1]%in%alcaldias)
+pos_h <- pos_alcaldias + 1
+pos_m <- pos_alcaldias + 2
+
+# In order to assign the right name of the locality I create a new column with the labels
+tabla$alcaldia <- NA
+for(i in 1:length(pos_h)){
+  tabla[pos_h[i],"alcaldia"] <- alcaldias[i]
+  tabla[pos_m[i],"alcaldia"] <- alcaldias[i]
+}
+
+# And now put the gender
+tabla$gender <- NA
+for(i in 1:length(pos_h)){
+  tabla[pos_h[i],"gender"] <- "m"
+  tabla[pos_m[i],"gender"] <- "f"
+}
+
+# Since I'm interested only in the gender not NA
+tabla <- tabla[!is.na(tabla$gender),]
+
+
+# Finally 
+tabla$geocode <- NA
+for(i in 1:length(alcaldias)){
+  tabla[tabla$alcaldia%in%alcaldias[i],"geocode"] <- i
+
+}
+
+dat <- tabla[!tabla$alcaldia%in%NA, c(2,6,7,8)]
+
+# Note that X2 is the column of population
+dat$int = round(as.numeric(dat$X2)/100000)
+gdat = ddply(dat, "geocode", function(d) {
   male = d$int[d$gender == "m"]
   female = d$int[d$gender == "f"]
   data.frame(gender = c(rep("m", male), rep("f", female)),
@@ -32,41 +61,11 @@ gdat = ddply(dat, "educode", function(d) {
 })
 
 gdat$char = ifelse(gdat$gender == "m", "p", "u")
-ggplot(gdat, aes(x = x, y = factor(educode))) +
-  geom_text(aes(label = char, colour = gender),
-            family = "wmpeople1", size = 8) +
-  scale_x_continuous("Population（10 million）") +
-  scale_y_discrete("Education Level",
-                   labels = unique(dat$edu[order(dat$educode)])) +
-  scale_colour_hue(guide = FALSE) +
-  ggtitle("2012 Demographics Data")
-
-
-
-#-----------------------------------------------------------------
-#datos de la ENSU
-# edu <- c("Tla","Tla",
-#          "Ags", "Ags",
-#          "Izt", "Izt")
-# educode <- c(1,1, 2,2, 3,3)
-# gender <- c("m","f", "m","f", "m","f")
-# population <- c( 127710,166166,   324537,359297,   722063,765654)
-#dat <- as.data.frame(cbind(edu, educode, gender, population))
-dat <- openxlsx::read.xlsx("D:/OneDrive - INEGI/Respaldo/varios/Medioambiente/demografia/poblacion_CDMX_ensu/pob_cdmx.xlsx", sheet = 1)
-dat$int = round(as.numeric(dat$population)/100000)
-gdat = ddply(dat, "educode", function(d) {
-  male = d$int[d$gender == "m"]
-  female = d$int[d$gender == "f"]
-  data.frame(gender = c(rep("m", male), rep("f", female)),
-             x = 1:(male + female))
-})
-
-gdat$char = ifelse(gdat$gender == "m", "p", "u")
-ggplot(gdat, aes(x = x, y = factor(educode))) +
+ggplot(gdat, aes(x = x, y = factor(geocode))) +
   geom_text(aes(label = char, colour = gender),
             family = "wmpeople1", size = 8) +
   scale_x_continuous("Población）") +
   scale_y_discrete("Población",
-                   labels = unique(dat$edu[order(dat$educode)])) +
+                   labels = unique(dat$alcaldia[order(dat$geocode)])) +
   scale_colour_hue(guide = FALSE) +
   ggtitle("Población de la CDMX por alcaldía. ENSU 2023, INEGI.") +xlim(c(0, 20))
