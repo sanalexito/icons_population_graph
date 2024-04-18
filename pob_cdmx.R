@@ -6,7 +6,7 @@ library(ggplot2)
 library(ggimage)
 
 # This is the source to use the icons
-font_add("wmpeople1", "D:/varios/wmpeople1.TTF")
+font_add("wmpeople1", "~/wmpeople1.TTF")
 showtext_auto()
 
 # Loading the ENSU file
