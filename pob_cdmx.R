@@ -10,7 +10,7 @@ font_add("wmpeople1", "D:/varios/wmpeople1.TTF")
 showtext_auto()
 
 # Loading the ENSU file
-tabla <- openxlsx::read.xlsx("D:/OneDrive - INEGI/Respaldo/varios/Medioambiente/demografia/poblacion_CDMX_ensu/XI_acoso_personal_violencia_sexual_dic_2023_est.xlsx",3)
+tabla <- openxlsx::read.xlsx("~/XI_acoso_personal_violencia_sexual_dic_2023_est.xlsx", 3)
 tabla <- tabla[69:120,]
 
 quitar <- which(stringr::str_detect(tabla[,1],"Región"))
