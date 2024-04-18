@@ -100,5 +100,5 @@ archivo de tabulados de la ENSU -publicada por el INEGI- para que sean utilizabl
        src="https://github-readme-stats.vercel.app/api?username=sanalexito&show_icons=true&hide=contribs,prs&cache_seconds=86400&theme=nord" />
 </a>
 ```
-![Recuento de visitantes](https://perfil-counter.glitch.me/{sanalexito}/count.svg)
+![Recuento de visitantes](https://perfil-counter.glitch.me/sanalexito/count.svg)
 ```
