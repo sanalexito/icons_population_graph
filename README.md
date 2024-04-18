@@ -95,3 +95,7 @@ archivo de tabulados de la ENSU -publicada por el INEGI- para que sean utilizabl
        alt='Prefiero programar en R" />
 </a>
   
+<a href="https://github.com/sanalexito">
+  <img align="center"
+       src="https://github-readme-stats.vercel.app/api?username=sanalexito&show_icons=true&hide=contribs,prs&cache_seconds=86400&theme=nord" />
+</a>
