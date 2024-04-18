@@ -81,4 +81,5 @@ archivo de tabulados de la ENSU -publicada por el INEGI- para que sean utilizabl
   
 &nbsp;  
 
+![A ver](https://github-readme-stats.vercel.app/api?username=sanalexito&show_icons=true)
 
