@@ -87,5 +87,6 @@ archivo de tabulados de la ENSU -publicada por el INEGI- para que sean utilizabl
     <p align="center">
       <div align="center">
     </p>
+        
 ![Mi GitHub stats](https://github-readme-stats.vercel.app/api?username=anuraghazra&show_icons=true&theme=radical)
 
